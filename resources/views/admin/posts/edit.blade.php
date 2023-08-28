@@ -17,14 +17,20 @@
                     @method('PUT')
                     <div class="form-group my-2">
                         <label class="control-label mb-1">Title:</label>
-                        <input type="text" id="title" name="title" class="form-control" placeholder="title" value="{{old('title') ?? $post->title}}">
+                        <input type="text" id="title" name="title" class="form-control @error('title') is-invalid @enderror" placeholder="title" value="{{old('title') ?? $post->title}}">
+                        @error('title')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group my-2">
                         <div>
                             <img src="{{asset('storage/'.$post->cover_image)}}" alt="img" width="500px">
                         </div>
                         <label class="control-label mb-1">Cover Image:</label>
-                        <input type="file" id="cover_image" name="cover_image" class="form-control">
+                        <input type="file" id="cover_image" name="cover_image" class="form-control  @error('cover_image')is-invalid @enderror">
+                        @error('cover_image')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group my-2">
                         <label class="control-label mb-1">Content:</label>
