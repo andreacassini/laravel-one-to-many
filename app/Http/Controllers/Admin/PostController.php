@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Post;
+use App\Models\Type;
 
 class PostController extends Controller
 {
@@ -28,7 +29,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $types = Type::all();
+
+        return view('admin.posts.create', compact('types'));
     }
 
     /**
@@ -40,13 +43,20 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $form_data = $request->all();
+
         $post = new Post();
+
         if ($request->hasFile('cover_image')) {
             $path = Storage::put('post_image', $request->cover_image);
             $form_data['cover_image'] = $path;
         }
+
+
+        $form_data['slug'] = $post->generateSlug($form_data['title']);
+
         $post->fill($form_data);
         $post->save();
+
         return redirect()->route('admin.posts.index');
     }
 

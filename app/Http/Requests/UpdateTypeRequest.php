@@ -24,7 +24,20 @@ class UpdateTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|max:50',
+            'cover_image' => 'image',
+            'type_id' => 'required|exists:type.id'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Il titolo è obbligatorio',
+            'title.max' => 'Il titolo deve essere lungo al massimo :max caratteri',
+            'cover_image.image'  => 'Il file caricato deve essere un file immagine',
+            'type_id.required' => 'Devi selezionare un campo',
+            'type_id.exists' => 'Tipo selezionato non valido',
         ];
     }
 }
