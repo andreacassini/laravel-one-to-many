@@ -43,7 +43,7 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $form_data = $request->all();
-
+        ddd($form_data);
         $post = new Post();
 
         if ($request->hasFile('cover_image')) {
